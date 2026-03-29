@@ -9,6 +9,8 @@ import SwiftUI
 import UIKit
 
 struct Kwadrat: View {
+    // CGFloat = typ liczby zmiennoprzecinkowej dla grafiki/layoutu (jak Float ale dla Core Graphics)
+    // trimValue = ile ścieżki jest narysowane (0 = nic, 1 = całość)
     @State private var trimValue: CGFloat = 0
     @State private var currentStep: Int = 0
     
@@ -28,6 +30,10 @@ struct Kwadrat: View {
                 path.closeSubpath()
             }
             .trim(from: 0, to: trimValue)
+            // Rysuje tylko CZĘŚĆ ścieżki od 0% do trimValue%
+            // trimValue = 0.25 → tylko pierwsza ścianka
+            // trimValue = 0.5  → dwie ścianki
+            // trimValue = 1.0  → cały kwadrat
             .stroke(Color.blue, lineWidth: 10)
             .frame(width: 100, height: 100)
             .onAppear {
@@ -41,6 +47,9 @@ struct Kwadrat: View {
             switch currentStep {
             case 0:
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    // DispatchQueue.main = wykonaj na głównym wątku (UI zawsze na głównym!)
+                    // asyncAfter = wykonaj PO upływie czasu
+                    // deadline: .now() + 1 = za 1 sekundę od teraz
                     trimValue = 0.25
                     currentStep += 1
                     animateSquare()

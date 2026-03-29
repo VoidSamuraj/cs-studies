@@ -31,6 +31,9 @@ struct ContentView: View {
                 .padding()
                 .frame(width: 300, height: 300)
                 .contentShape(Circle())
+                // contentShape = definiuje OBSZAR klikalny
+                // bez tego tap działa tylko na wypełnionej części
+                // przy opacity=0 kółko byłoby niewidoczne ale nadal klikalne!
                 .opacity(opacity1)
                 .onTapGesture {
                     opacity1 = 1.0;
@@ -57,9 +60,11 @@ struct ContentView: View {
     }
 }
 func randColor(colors: Binding<[ColorData]>) -> Color {
-    
+    // Binding<[ColorData]> = referencja do tablicy, nie kopia
+    // dzięki temu możemy modyfikować oryginał
     let randomIndex = Int.random(in: 0..<colors.wrappedValue.count)
-    
+    // .wrappedValue = dostęp do rzeczywistej wartości za Bindingiem (odczyt i modyfikacja binding)
+
     colors[randomIndex].count.wrappedValue += 1
     
     let selectedColor = colors.wrappedValue[randomIndex]

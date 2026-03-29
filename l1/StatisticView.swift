@@ -17,7 +17,7 @@ struct StatisticView: View {
             Button("Pokaż statystyki") {
                 showSheet.toggle()
             }
-            .sheet(isPresented: $showSheet) {
+            .sheet(isPresented: $showSheet) {  // .sheet = wysuwane okno od dołu ekranu
                 Chart{
                     ForEach(colorOccurrences) { occurrence in
                         BarMark(
